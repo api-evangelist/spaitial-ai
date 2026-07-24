@@ -1,0 +1,244 @@
+openapi: 3.0.0
+info:
+  title: SpAItial Developer files panoramas API
+  description: Programmatic API for generating 3D worlds. See the [Getting Started guide](https://docs.spaitial.ai/api/getting-started) for authentication and usage examples.
+  version: 1.0.0
+  contact: {}
+servers:
+- url: https://api.spaitial.ai
+  description: Production
+tags:
+- name: panoramas
+paths:
+  /v1/panoramas/edit:
+    post:
+      description: 'Fetches the panorama behind the source (a request_id / world_id you created, or a panorama_id from a previous edit), applies the prompt + optional reference images, and returns the new panorama. Iterate by passing the returned panorama_id back in as the source; create a world from the final panorama via POST /v1/worlds with input { type: "panorama_id" }.'
+      operationId: V1Panoramas_editPanorama
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        description: Unique key to ensure request idempotency (max 24 hours)
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Panorama edit request
+        content:
+          application/json:
+            schema:
+              $schema: https://json-schema.org/draft/2020-12/schema
+              type: object
+              properties:
+                source:
+                  oneOf:
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: request_id
+                      request_id:
+                        type: string
+                        minLength: 1
+                    required:
+                    - type
+                    - request_id
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: world_id
+                      world_id:
+                        type: string
+                        format: uuid
+                        pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$
+                    required:
+                    - type
+                    - world_id
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: panorama_id
+                      panorama_id:
+                        type: string
+                        minLength: 1
+                    required:
+                    - type
+                    - panorama_id
+                    additionalProperties: false
+                prompt:
+                  type: string
+                  minLength: 1
+                  maxLength: 2000
+                images:
+                  maxItems: 3
+                  type: array
+                  items:
+                    oneOf:
+                    - type: object
+                      properties:
+                        type:
+                          type: string
+                          const: file_id
+                        file_id:
+                          type: string
+                          minLength: 1
+                      required:
+                      - type
+                      - file_id
+                      additionalProperties: false
+                    - type: object
+                      properties:
+                        type:
+                          type: string
+                          const: url
+                        image_url:
+                          type: string
+                          format: uri
+                          pattern: ^https:\/\/.*
+                      required:
+                      - type
+                      - image_url
+                      additionalProperties: false
+                    - type: object
+                      properties:
+                        type:
+                          type: string
+                          const: base64
+                        image_base64:
+                          type: string
+                          minLength: 1
+                      required:
+                      - type
+                      - image_base64
+                      additionalProperties: false
+              required:
+              - source
+              - prompt
+              additionalProperties: false
+            examples:
+              from_request:
+                summary: Edit the panorama of a world you created
+                value:
+                  source:
+                    type: request_id
+                    request_id: req_abc123
+                  prompt: make it night time with warm street lights
+              iterate:
+                summary: Iterate on a previous edit
+                value:
+                  source:
+                    type: panorama_id
+                    panorama_id: pano_def456
+                  prompt: add neon signs on the storefronts
+              with_images:
+                summary: Edit with reference images
+                value:
+                  source:
+                    type: world_id
+                    world_id: world-uuid
+                  prompt: match the style of the reference
+                  images:
+                  - type: url
+                    image_url: https://example.com/ref.jpg
+      responses:
+        '200':
+          description: Edited panorama
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Insufficient credits
+        '403':
+          description: Moderation rejected
+        '404':
+          description: Source not found
+        '409':
+          description: Source world is not ready yet
+        '410':
+          description: Source panorama has expired
+        '429':
+          description: Rate limit exceeded
+      security:
+      - api-key: []
+      summary: Edit a panorama and return the updated panorama
+      tags:
+      - panoramas
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/panoramas:
+    get:
+      operationId: V1Panoramas_listPanoramas
+      parameters: []
+      responses:
+        '200':
+          description: Paginated panorama list
+      security:
+      - api-key: []
+      summary: List panoramas created by this API key
+      tags:
+      - panoramas
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/panoramas/{panoramaId}:
+    get:
+      operationId: V1Panoramas_getPanorama
+      parameters:
+      - name: panoramaId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Panorama details
+        '404':
+          description: Panorama not found
+        '410':
+          description: Panorama has expired
+      security:
+      - api-key: []
+      summary: Get a panorama
+      tags:
+      - panoramas
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/panoramas/{panoramaId}/download:
+    get:
+      description: Redirects (302) to a short-lived signed download URL (~5 minutes). Re-hit this endpoint when it expires.
+      operationId: V1Panoramas_downloadPanorama
+      parameters:
+      - name: panoramaId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to signed download URL
+        '404':
+          description: Panorama not found
+        '410':
+          description: Panorama has expired
+      security:
+      - api-key: []
+      summary: Download a panorama image
+      tags:
+      - panoramas
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+components:
+  securitySchemes:
+    api-key:
+      scheme: bearer
+      bearerFormat: API Key
+      type: http
+      description: 'API key issued by the developers site. Example: spt_live_abc123...'

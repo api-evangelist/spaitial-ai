@@ -1,0 +1,695 @@
+openapi: 3.0.0
+info:
+  title: SpAItial Developer files worlds API
+  description: Programmatic API for generating 3D worlds. See the [Getting Started guide](https://docs.spaitial.ai/api/getting-started) for authentication and usage examples.
+  version: 1.0.0
+  contact: {}
+servers:
+- url: https://api.spaitial.ai
+  description: Production
+tags:
+- name: worlds
+  description: World generation endpoints
+paths:
+  /v1/worlds:
+    post:
+      operationId: V1Worlds_createJob
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        description: Unique key to ensure request idempotency (max 24 hours)
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: World generation request
+        content:
+          application/json:
+            schema:
+              $schema: https://json-schema.org/draft/2020-12/schema
+              type: object
+              properties:
+                input:
+                  oneOf:
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: file_id
+                      file_id:
+                        type: string
+                        minLength: 1
+                      is_pano:
+                        type: boolean
+                    required:
+                    - type
+                    - file_id
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: url
+                      image_url:
+                        type: string
+                        format: uri
+                        pattern: ^https:\/\/.*
+                      is_pano:
+                        type: boolean
+                    required:
+                    - type
+                    - image_url
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: base64
+                      image_base64:
+                        type: string
+                        minLength: 1
+                      is_pano:
+                        type: boolean
+                    required:
+                    - type
+                    - image_base64
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: text
+                      prompt:
+                        type: string
+                        minLength: 1
+                        maxLength: 2000
+                    required:
+                    - type
+                    - prompt
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: panorama_id
+                      panorama_id:
+                        type: string
+                        minLength: 1
+                    required:
+                    - type
+                    - panorama_id
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: multi_pano
+                      panos:
+                        minItems: 2
+                        maxItems: 40
+                        type: array
+                        items:
+                          oneOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: file_id
+                              file_id:
+                                type: string
+                                minLength: 1
+                            required:
+                            - type
+                            - file_id
+                            additionalProperties: false
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: url
+                              image_url:
+                                type: string
+                                format: uri
+                                pattern: ^https:\/\/.*
+                            required:
+                            - type
+                            - image_url
+                            additionalProperties: false
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: base64
+                              image_base64:
+                                type: string
+                                minLength: 1
+                            required:
+                            - type
+                            - image_base64
+                            additionalProperties: false
+                      video:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: file_id
+                            file_id:
+                              type: string
+                              minLength: 1
+                          required:
+                          - type
+                          - file_id
+                          additionalProperties: false
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: url
+                            video_url:
+                              type: string
+                          required:
+                          - type
+                          - video_url
+                          additionalProperties: false
+                      panos_zip:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: file_id
+                            file_id:
+                              type: string
+                              minLength: 1
+                          required:
+                          - type
+                          - file_id
+                          additionalProperties: false
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: url
+                            zip_url:
+                              type: string
+                              format: uri
+                              pattern: ^https:\/\/.*
+                          required:
+                          - type
+                          - zip_url
+                          additionalProperties: false
+                      cameras:
+                        oneOf:
+                        - type: object
+                          properties:
+                            format:
+                              type: string
+                              const: camera_trajectory
+                            matrices:
+                              minItems: 2
+                              maxItems: 40
+                              type: array
+                              items:
+                                minItems: 4
+                                maxItems: 4
+                                type: array
+                                items:
+                                  minItems: 4
+                                  maxItems: 4
+                                  type: array
+                                  items:
+                                    type: number
+                          required:
+                          - format
+                          - matrices
+                          additionalProperties: false
+                        - type: object
+                          properties:
+                            format:
+                              type: string
+                              const: floorplan
+                            poses:
+                              minItems: 2
+                              maxItems: 40
+                              type: array
+                              items:
+                                type: array
+                                prefixItems:
+                                - type: number
+                                - type: number
+                                - type: number
+                                - type: number
+                          required:
+                          - format
+                          - poses
+                          additionalProperties: false
+                    required:
+                    - type
+                    additionalProperties: false
+                model:
+                  type: string
+                title:
+                  type: string
+                  maxLength: 200
+                output_format:
+                  type: string
+                  enum:
+                  - spz
+                  - sog
+                validation:
+                  type: object
+                  properties:
+                    skip:
+                      type: boolean
+                    error_on_fail:
+                      type: boolean
+                  additionalProperties: false
+                visibility:
+                  type: object
+                  properties:
+                    is_public:
+                      type: boolean
+                    is_listed:
+                      type: boolean
+                  additionalProperties: false
+                webhook:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      format: uri
+                      pattern: ^https:\/\/.*
+                  required:
+                  - url
+                  additionalProperties: false
+              required:
+              - input
+              additionalProperties: false
+            examples:
+              url:
+                summary: URL input (all fields with defaults)
+                value:
+                  input:
+                    type: url
+                    image_url: https://example.com/photo.jpg
+                  model: default
+                  title: My world
+                  output_format: spz
+                  validation:
+                    skip: true
+                    error_on_fail: false
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              sog_output:
+                summary: Request SOG output (adds ~25s)
+                value:
+                  input:
+                    type: url
+                    image_url: https://example.com/photo.jpg
+                  title: My SOG world
+                  output_format: sog
+              file_id:
+                summary: File ID input (after POST /v1/files)
+                value:
+                  input:
+                    type: file_id
+                    file_id: file_abc123
+                  model: default
+                  title: My world
+                  validation:
+                    skip: true
+                    error_on_fail: false
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              panorama_file_id:
+                summary: 360 panorama file input (after POST /v1/files)
+                value:
+                  input:
+                    type: file_id
+                    file_id: file_pano123
+                    is_pano: true
+                  model: default
+                  title: My panorama world
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              panorama_url:
+                summary: 360 panorama URL input
+                value:
+                  input:
+                    type: url
+                    image_url: https://example.com/panorama.jpg
+                    is_pano: true
+                  model: default
+                  title: My panorama world
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              panorama_id:
+                summary: Edited panorama input (after POST /v1/panoramas/edit)
+                value:
+                  input:
+                    type: panorama_id
+                    panorama_id: pano_abc123
+                  model: default
+                  title: My edited world
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              base64:
+                summary: Base64 inline input (≤25MB)
+                value:
+                  input:
+                    type: base64
+                    image_base64: data:image/png;base64,iVBORw0KGgo...
+                  model: default
+                  title: My world
+                  validation:
+                    skip: true
+                    error_on_fail: false
+                  visibility:
+                    is_public: false
+                    is_listed: false
+              text:
+                summary: Text prompt → full world
+                value:
+                  input:
+                    type: text
+                    prompt: a cozy sunlit reading nook with bookshelves and a window seat
+                  model: default
+                  title: Reading nook
+                  validation:
+                    skip: true
+                    error_on_fail: false
+                  visibility:
+                    is_public: false
+                    is_listed: false
+      responses:
+        '202':
+          description: Job accepted and queued for processing
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '402':
+          description: Insufficient credits
+        '409':
+          description: Idempotency key conflict
+        '429':
+          description: Rate limit exceeded
+      security:
+      - api-key: []
+      summary: Create a new world generation job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests:
+    get:
+      description: Returns only worlds generated through the API with this key. Worlds created in the Spaitial web app (dashboard) are not included, even for the same account. Generate through the API if you need the pipeline to list the result.
+      operationId: V1Worlds_listJobs
+      parameters: []
+      responses:
+        '200':
+          description: Paginated job list
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+      - api-key: []
+      summary: List jobs created by this API key
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/status:
+    get:
+      operationId: V1Worlds_getJobStatus
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Job status
+        '404':
+          description: Job not found
+      security:
+      - api-key: []
+      summary: Get job status
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}:
+    get:
+      operationId: V1Worlds_getJobResult
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Full job result with world details
+        '404':
+          description: Job not found
+      security:
+      - api-key: []
+      summary: Get full job result
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+    patch:
+      operationId: V1Worlds_updateWorld
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: World update request
+        content:
+          application/json:
+            schema:
+              $schema: https://json-schema.org/draft/2020-12/schema
+              type: object
+              properties:
+                title:
+                  type: string
+                  maxLength: 200
+                visibility:
+                  type: object
+                  properties:
+                    is_public:
+                      type: boolean
+                    is_listed:
+                      type: boolean
+                  additionalProperties: false
+              additionalProperties: false
+            examples:
+              visibility:
+                summary: Update visibility
+                value:
+                  visibility:
+                    is_public: true
+                    is_listed: true
+              title:
+                summary: Update title
+                value:
+                  title: My updated world
+              both:
+                summary: Update both
+                value:
+                  title: My public world
+                  visibility:
+                    is_public: true
+                    is_listed: false
+      responses:
+        '200':
+          description: Updated world details
+        '400':
+          description: Invalid request
+        '404':
+          description: Request not found
+        '409':
+          description: World is not ready yet
+      security:
+      - api-key: []
+      summary: Update world visibility or title
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/cancel:
+    post:
+      operationId: V1Worlds_cancelJob
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Cancel request processed
+        '404':
+          description: Job not found
+      security:
+      - api-key: []
+      summary: Cancel a job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/exports/{type}:
+    post:
+      description: Export artifacts from worlds. Supports just collision meshes for now. Mesh exports can take several minutes, so ensure to check the status before requesting the download URL.
+      operationId: V1Worlds_createExport
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Export is ready
+        '202':
+          description: Export generation started
+        '404':
+          description: Request not found
+        '409':
+          description: World is not ready yet
+      security:
+      - api-key: []
+      summary: Start or retrieve an export for a completed job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+    get:
+      description: Returns export status. When ready, the response includes a backend proxy download_url. Add ?download=1 to this same endpoint to redirect to a short-lived signed file URL.
+      operationId: V1Worlds_getExport
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Export status and download link
+        '302':
+          description: Redirect to a short-lived signed file URL when ?download=1 is provided
+        '404':
+          description: Request not found
+        '409':
+          description: World is not ready yet
+      security:
+      - api-key: []
+      summary: Get export status
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/exports:
+    get:
+      operationId: V1Worlds_listExports
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of export artifacts
+        '404':
+          description: Request not found
+        '409':
+          description: World is not ready yet
+      security:
+      - api-key: []
+      summary: List exports for a completed job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/splat:
+    get:
+      description: Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires.
+      operationId: V1Worlds_getSplatDownload
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to a short-lived signed download URL
+        '404':
+          description: Request not found
+        '409':
+          description: Splat is not ready yet
+      security:
+      - api-key: []
+      summary: Download the splat artifact for a completed job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+  /v1/worlds/requests/{requestId}/panorama:
+    get:
+      description: Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires.
+      operationId: V1Worlds_getPanoramaDownload
+      parameters:
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to a short-lived signed download URL
+        '404':
+          description: Request not found
+        '409':
+          description: Panorama is not ready yet
+      security:
+      - api-key: []
+      summary: Download the panorama artifact for a completed job
+      tags:
+      - worlds
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+components:
+  securitySchemes:
+    api-key:
+      scheme: bearer
+      bearerFormat: API Key
+      type: http
+      description: 'API key issued by the developers site. Example: spt_live_abc123...'

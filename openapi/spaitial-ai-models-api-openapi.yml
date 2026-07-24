@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: SpAItial Developer files models API
+  description: Programmatic API for generating 3D worlds. See the [Getting Started guide](https://docs.spaitial.ai/api/getting-started) for authentication and usage examples.
+  version: 1.0.0
+  contact: {}
+servers:
+- url: https://api.spaitial.ai
+  description: Production
+tags:
+- name: models
+  description: Model discovery endpoints
+paths:
+  /v1/models:
+    get:
+      operationId: V1Models_listModels
+      parameters: []
+      responses:
+        '200':
+          description: List of available models for world generation
+        '401':
+          description: Unauthorized
+      security:
+      - api-key: []
+      summary: List available models
+      tags:
+      - models
+      servers:
+      - url: https://api.spaitial.ai
+        description: Production
+components:
+  securitySchemes:
+    api-key:
+      scheme: bearer
+      bearerFormat: API Key
+      type: http
+      description: 'API key issued by the developers site. Example: spt_live_abc123...'
