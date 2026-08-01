@@ -1,0 +1,21 @@
+generated: '2026-07-21'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: docs.spaitial.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  1 13:01:24 2026 GMT
+  hsts: false
+- host: api.spaitial.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  1 13:01:24 2026 GMT
+  hsts: false
+domains:
+- domain: spaitial.ai
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

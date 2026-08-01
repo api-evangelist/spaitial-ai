@@ -1,0 +1,38 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/overview/release-notes
+scheme: monthly-dated
+current_period: May 2026
+note: Product release notes (app + platform). Recent window captured verbatim from the docs.
+entries:
+- period: May 2026
+  additions:
+  - Generate worlds directly from 360-degree panorama images
+  - Automatic image cleanup detects and corrects common upload issues before generation
+  - Reservable usernames and public profile pages
+  - Additional splat download formats, including PLY
+  - Community gallery for sharing public worlds
+  improvements:
+  - Smarter content moderation with fewer false positives on benign terms
+  - Page refresh restores the current scene instead of returning to the first
+  - Filter the community gallery by input type and creator
+- period: April 2026
+  additions:
+  - Higher-quality world generation with improved visual fidelity
+  - Upgraded in-browser viewer with sharper detail and smoother rendering on large scenes
+  - Cinematic recorder exports smooth MP4 videos of your world
+  - Rename worlds from the worlds list
+  - Redesigned create-world flow with an image-first composer
+  improvements:
+  - Faster gallery and worlds list loading
+  - Mobile-friendly worlds list and editor toolbar
+  - Generation progress now includes a remaining time estimate
+- period: March 2026
+  additions:
+  - Auto camera with multiple cinematic modes and smooth transitions
+  - Short clip recording with MP4 export and resolution presets
+  - Persistent image edit history with versioning
+  - World creation opens as an in-page overlay
+  improvements:
+  - Mouse orbit defaults to a more natural drag direction
+  - Faster world loading with animated reveal and on-device caching

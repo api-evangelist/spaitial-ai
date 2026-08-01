@@ -1,0 +1,72 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "spaitial-mcp",
+    "title": "SpAItial MCP Server",
+    "version": "0.1.0"
+  },
+  "description": "Create 3D worlds, game scenes, explorable environments, Gaussian splats, SPZ/SOG assets, and spatial world-model outputs from text, images, panoramas, or edited panoramas.",
+  "iconUrl": "https://docs.spaitial.ai/img/logo/icon-512.png",
+  "documentationUrl": "https://docs.spaitial.ai/api/mcp-server",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://mcp.spaitial.ai/mcp"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "authentication": {
+    "required": true,
+    "schemes": [
+      "bearer",
+      "oauth2"
+    ]
+  },
+  "tools": [
+    "list_models",
+    "create_world",
+    "edit_panorama",
+    "list_panoramas",
+    "get_panorama",
+    "get_edited_panorama_download_url",
+    "get_world_status",
+    "get_world",
+    "list_world_requests",
+    "get_splat_download_url",
+    "get_panorama_download_url",
+    "update_world",
+    "cancel_world",
+    "start_mesh_export",
+    "get_mesh_export"
+  ],
+  "resources": [],
+  "prompts": [],
+  "metadata": {
+    "keywords": [
+      "world model",
+      "3D world generation",
+      "3D scene generation",
+      "game scene generation",
+      "Gaussian splatting",
+      "3DGS",
+      "SPZ",
+      "SOG",
+      "spatial AI",
+      "agent environment",
+      "simulation environment",
+      "robotics environment"
+    ],
+    "use_cases": [
+      "create explorable 3D worlds",
+      "generate scenes for games",
+      "make simulation environments for agents",
+      "turn images or panoramas into Gaussian splats",
+      "create digital twins and real-estate walkthroughs",
+      "build virtual production and architecture visualization sets"
+    ]
+  }
+}

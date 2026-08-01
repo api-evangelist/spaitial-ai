@@ -1,0 +1,87 @@
+# SpAItial Developer Docs
+
+> SpAItial turns a single image into an immersive 3D world. Product guides and developer API reference.
+
+- [Turn your ideasinto immersive worlds.](https://docs.spaitial.ai/index.md): SpAItial turns a single image into an immersive 3D world. Read product guides and the developer API reference.
+
+
+## Product Documentation
+
+> Guides for creating, editing, and exploring SpAItial worlds.
+
+- [Notifications](https://docs.spaitial.ai/account/notifications.md): Manage notification preferences in SpAItial
+- [Profile](https://docs.spaitial.ai/account/profile.md): Manage your SpAItial profile and public information
+- [Sign Up & Login](https://docs.spaitial.ai/account/signup-login.md): Create your SpAItial account and access the platform
+- [Create Your First World](https://docs.spaitial.ai/create/first-world.md): Step-by-step guide to creating your first 3D world in SpAItial
+- [Generation States](https://docs.spaitial.ai/create/generation-states.md): Understanding the different states during world generation
+- [Image Guide](https://docs.spaitial.ai/create/image-guide.md): Best practices for reference images in SpAItial
+- [Image-to-World](https://docs.spaitial.ai/create/image-to-world.md): Create 3D worlds from reference images
+- [Panorama-to-World](https://docs.spaitial.ai/create/panorama-to-world.md): Create 3D worlds from 360° equirectangular panoramas
+- [Prompt Guide](https://docs.spaitial.ai/create/prompt-guide.md): Master the art of writing effective prompts for SpAItial
+- [Text-to-World](https://docs.spaitial.ai/create/text-to-world.md): Create 3D worlds from text descriptions
+- [Edit Prompts](https://docs.spaitial.ai/edit/edit-prompts.md): Write effective prompts for editing regions in SpAItial
+- [Finalize Draft](https://docs.spaitial.ai/edit/finalize-draft.md): Commit your edits and finalize your world
+- [Editing Overview](https://docs.spaitial.ai/edit/overview.md): Learn how to edit and refine your SpAItial worlds
+- [Pano Edit](https://docs.spaitial.ai/edit/pano-edit.md): Edit your worlds using the panoramic view
+- [Select Regions](https://docs.spaitial.ai/edit/select-regions.md): Learn how to select regions for editing in SpAItial
+- [Editing Troubleshooting](https://docs.spaitial.ai/edit/troubleshooting.md): Common editing issues and solutions in SpAItial
+- [Edit Versions](https://docs.spaitial.ai/edit/undo-redo.md): Navigate between versions of your edited panorama
+- [Credits and Generation](https://docs.spaitial.ai/limits/daily-generation-limits.md): Understanding credits, plans, and world generation costs
+- [Credits FAQ](https://docs.spaitial.ai/limits/limits-faq.md): Frequently asked questions about SpAItial credits and billing
+- [Core Concepts](https://docs.spaitial.ai/overview/core-concepts.md): Understanding the key concepts in SpAItial
+- [Generation Times](https://docs.spaitial.ai/overview/generation-times.md): Understanding world generation times in SpAItial
+- [Platform Compatibility](https://docs.spaitial.ai/overview/platform-compatibility.md): Supported browsers and devices for SpAItial
+- [Release Notes](https://docs.spaitial.ai/overview/release-notes.md): Latest updates and changes to SpAItial
+- [Welcome to SpAItial](https://docs.spaitial.ai/overview/welcome.md): Get started with SpAItial - create immersive 3D worlds with AI
+- [What You Can Create](https://docs.spaitial.ai/overview/what-you-can-create.md): Explore the types of 3D worlds you can create with SpAItial
+- [Create Workspace](https://docs.spaitial.ai/workspaces/create.md): Create new workspaces to organize your worlds
+- [Manage Workspaces](https://docs.spaitial.ai/workspaces/manage.md): Rename or delete workspaces from Settings
+- [Workspaces Overview](https://docs.spaitial.ai/workspaces/overview.md): Organize your worlds with workspaces in SpAItial
+- [Switch Workspaces](https://docs.spaitial.ai/workspaces/switch.md): Navigate between different workspaces in SpAItial
+- [Download & Export](https://docs.spaitial.ai/worlds/download-export.md): Export your SpAItial worlds for use elsewhere
+- [Worlds](https://docs.spaitial.ai/worlds/my-worlds.md): Manage every world you've created in SpAItial
+- [World Privacy](https://docs.spaitial.ai/worlds/privacy.md): Control who can see your worlds in SpAItial
+- [Share Worlds](https://docs.spaitial.ai/worlds/share.md): Share your SpAItial worlds with others
+- [View World](https://docs.spaitial.ai/worlds/view-world.md): Navigate and explore your 3D worlds in SpAItial
+
+## API Reference
+
+> Developer REST API for SpAItial. Authentication, errors, rate limits, and OpenAPI reference.
+
+- [Authentication](https://docs.spaitial.ai/api/authentication.md): How to authenticate to the SpAItial Developer API with a bearer API key.
+- [Credits and Billing](https://docs.spaitial.ai/api/credits-billing.md): How credits, plans, and billing work for the SpAItial Developer API.
+- [Errors](https://docs.spaitial.ai/api/errors.md): HTTP status codes, error envelope shape, and stable error codes returned by the SpAItial Developer API.
+- [Files](https://docs.spaitial.ai/api/files.md): Upload, list, and reuse image files with the SpAItial Developer API.
+- [Getting Started](https://docs.spaitial.ai/api/getting-started.md): Quick overview of the SpAItial Developer API — base URL, prerequisites, and your first request.
+- [LLM Skills](https://docs.spaitial.ai/api/llm-skills.md): Self-contained reference for AI coding assistants integrating with the SpAItial Developer API.
+- [MCP Server](https://docs.spaitial.ai/api/mcp-server.md): Use the SpAItial Developer API from Cursor, Claude, VS Code, and other AI agents via the hosted Model Context Protocol (MCP) server.
+- [Moderation](https://docs.spaitial.ai/api/moderation.md): How SpAItial screens API inputs before generation.
+- [Panorama Editing](https://docs.spaitial.ai/api/panorama-editing.md): Edit a world's panorama with a prompt, iterate, then create a new world from the result.
+- [Rate Limits](https://docs.spaitial.ai/api/rate-limits.md): Per-key rate limiting on the SpAItial Developer API, including headers and bucket layout.
+- [files](https://docs.spaitial.ai/api/reference/files.md): files
+- [models](https://docs.spaitial.ai/api/reference/models.md): models
+- [SpAItial Developer API](https://docs.spaitial.ai/api/reference/spaitial-developer-api.md): Programmatic API for generating 3D worlds. See the [Getting Started guide](https://docs.spaitial.ai/api/getting-started) for authentication and usage examples.
+- [List files uploaded by this API key](https://docs.spaitial.ai/api/reference/v-1-files-list-files.md): List files uploaded by this API key
+- [Upload a file for later use in world generation](https://docs.spaitial.ai/api/reference/v-1-files-upload-file.md): Upload a file for later use in world generation
+- [List available models](https://docs.spaitial.ai/api/reference/v-1-models-list-models.md): List available models
+- [Download a panorama image](https://docs.spaitial.ai/api/reference/v-1-panoramas-download-panorama.md): Redirects (302) to a short-lived signed download URL (~5 minutes). Re-hit this endpoint when it expires.
+- [Edit a panorama and return the updated panorama](https://docs.spaitial.ai/api/reference/v-1-panoramas-edit-panorama.md): Fetches the panorama behind the source (a request_id / world_id you created, or a panorama_id from a previous edit), applies the prompt + optional reference images, and returns the new panorama. Iterate by passing the returned panorama_id back in as the source; create a world from the final panorama via POST /v1/worlds with input { type: 'panorama_id' }.
+- [Get a panorama](https://docs.spaitial.ai/api/reference/v-1-panoramas-get-panorama.md): Get a panorama
+- [List panoramas created by this API key](https://docs.spaitial.ai/api/reference/v-1-panoramas-list-panoramas.md): List panoramas created by this API key
+- [Cancel a job](https://docs.spaitial.ai/api/reference/v-1-worlds-cancel-job.md): Cancel a job
+- [Start or retrieve an export for a completed job](https://docs.spaitial.ai/api/reference/v-1-worlds-create-export.md): Export artifacts from worlds. Supports just collision meshes for now. Mesh exports can take several minutes, so ensure to check the status before requesting the download URL.
+- [Create a new world generation job](https://docs.spaitial.ai/api/reference/v-1-worlds-create-job.md): Create a new world generation job
+- [Get export status](https://docs.spaitial.ai/api/reference/v-1-worlds-get-export.md): Returns export status. When ready, the response includes a backend proxy download_url. Add ?download=1 to this same endpoint to redirect to a short-lived signed file URL.
+- [Get full job result](https://docs.spaitial.ai/api/reference/v-1-worlds-get-job-result.md): Get full job result
+- [Get job status](https://docs.spaitial.ai/api/reference/v-1-worlds-get-job-status.md): Get job status
+- [Download the panorama artifact for a completed job](https://docs.spaitial.ai/api/reference/v-1-worlds-get-panorama-download.md): Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires.
+- [Download the splat artifact for a completed job](https://docs.spaitial.ai/api/reference/v-1-worlds-get-splat-download.md): Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires.
+- [List exports for a completed job](https://docs.spaitial.ai/api/reference/v-1-worlds-list-exports.md): List exports for a completed job
+- [List jobs created by this API key](https://docs.spaitial.ai/api/reference/v-1-worlds-list-jobs.md): List jobs created by this API key
+- [Update world visibility or title](https://docs.spaitial.ai/api/reference/v-1-worlds-update-world.md): Update world visibility or title
+- [worlds](https://docs.spaitial.ai/api/reference/worlds.md): worlds
+- [Validation](https://docs.spaitial.ai/api/validation.md): Configure image suitability validation for v1 world generation.
+
+## Create With Ai Agents
+
+- [Create with AI Agents](https://docs.spaitial.ai/create-with-ai-agents.md): Use SpAItial from Cursor, Claude Code, LLM skills, and the hosted MCP server.

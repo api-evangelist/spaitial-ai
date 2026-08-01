@@ -1,0 +1,37 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/rate-limits
+strategy: fixed-window-per-key
+buckets:
+- name: General
+  limit_count: 60
+  window: minute
+  applies_to: Every authenticated request, regardless of method.
+- name: World create
+  limit_count: 10
+  window: minute
+  applies_to: POST /v1/worlds only. Consumed in addition to the general bucket.
+- name: Downloads
+  limit_count: 120
+  window: minute
+  applies_to: >-
+    GET /v1/worlds/requests/{id}/splat, GET /v1/worlds/requests/{id}/panorama,
+    and GET /v1/panoramas/{id}/download. Own bucket so polling downloads does not
+    lock out status/result/cancel.
+notes:
+- POST /v1/worlds decrements both the general and world-create buckets in the same window.
+- POST /v1/panoramas/edit uses the general bucket.
+- Downloads decrement only the dedicated download bucket.
+headers:
+- name: X-RateLimit-Limit
+  description: The bucket ceiling for this request, in requests per minute.
+- name: X-RateLimit-Remaining
+  description: Requests remaining in the current window (clamped to 0).
+- name: X-RateLimit-Reset
+  description: Unix timestamp (seconds) at which the current window expires.
+- name: Retry-After
+  description: Present on 429 responses; seconds to wait before retrying.
+on_limit:
+  status: 429
+  code: RATE_LIMIT_EXCEEDED
+higher_limits: Contact SpAItial for a higher ceiling for a specific integration or project.

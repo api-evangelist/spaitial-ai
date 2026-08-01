@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/credits-billing
+model: credits
+credit_value_usd: 0.01
+metering:
+  unit: credit
+  billed_actions:
+  - Text-to-world generation
+  - Image-to-world generation
+  - Panorama-to-world generation
+  free_actions:
+  - reads
+  - status polling
+  - downloads
+  - exports
+model_pricing:
+- model: Echo 2 - Standard
+  credits: 160
+  typical_time: ~8 minutes
+- model: Echo 2 (HQ)
+  credits: 800
+  typical_time: ~60 minutes
+plans:
+- name: Free
+  included_credits: 1600
+  cadence: once
+  echo2_standard_generations: 10
+  echo2_hq_generations: 2
+  api_usage: Does not work with API (free daily credit cannot pay for API usage)
+- name: Standard
+  included_credits: 2400
+  cadence: monthly
+  echo2_standard_generations: 15
+  echo2_hq_generations: 3
+  api_usage: Small integrations and prototypes
+- name: Pro
+  included_credits: 4800
+  cadence: monthly
+  echo2_standard_generations: 30
+  echo2_hq_generations: 6
+  api_usage: Higher-volume API usage
+- name: Custom/Enterprise
+  included_credits: custom
+  cadence: custom
+  api_usage: Production or high-volume workloads
+purchased_credits: Self-serve, custom amounts, shared between web app and API, used after included subscription credits.

@@ -1,0 +1,75 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/spaitial-ai-developer-api-openapi.json + https://docs.spaitial.ai/api/llm-skills
+entities:
+- name: Request
+  aka: Job
+  id_field: request_id
+  id_prefix: req_
+  description: A world-generation job created via POST /v1/worlds; tracks status and progress.
+  key_fields: [request_id, model, status, progress, created_at, updated_at, completed_at, input]
+  states: [PENDING, PROCESSING, COMPLETED, FAILED, CANCELLED]
+- name: World
+  id_field: id
+  id_format: uuid
+  description: The generated 3D world produced by a completed request.
+  key_fields: [id, title, splat_url, splat_format, thumbnail_url, panorama_url, viewer_url, visibility]
+- name: Panorama
+  id_field: panorama_id
+  id_prefix: pano_
+  description: An edited panorama artifact produced by POST /v1/panoramas/edit; 24h TTL.
+  key_fields: [panorama_id, status, panorama_url, prompt, parent_panorama_id, consumed, expires_at]
+- name: File
+  id_field: file_id
+  description: An uploaded input image/panorama in a private bucket; 24h TTL, owner-scoped.
+  key_fields: [file_id, status, expires_at, consumed_at]
+  states: [available, consumed, expired]
+- name: Export
+  id_field: type
+  description: An optional artifact (mesh, mesh-simplified) derived from a completed world.
+  key_fields: [type, status, download_url, created_at, updated_at]
+  types: [mesh, mesh-simplified]
+- name: Model
+  id_field: id
+  description: A generation model available to the account (e.g. Echo 2 - Standard, Echo 2 HQ).
+- name: WebhookDelivery
+  id_field: delivery_id
+  id_prefix: wd_
+  description: A webhook delivery attempt for a terminal-state event.
+relationships:
+- from: Request
+  to: World
+  type: has_one
+  via: world
+- from: World
+  to: Request
+  type: belongs_to
+  via: request_id
+- from: Request
+  to: Export
+  type: has_many
+  via: exports
+- from: Panorama
+  to: Panorama
+  type: belongs_to
+  via: parent_panorama_id
+- from: Panorama
+  to: Request
+  type: belongs_to
+  via: source_request_id
+- from: Panorama
+  to: World
+  type: belongs_to
+  via: source_world_id
+- from: Request
+  to: File
+  type: belongs_to
+  via: input.file_id
+- from: Request
+  to: Panorama
+  type: belongs_to
+  via: input.panorama_id
+- from: WebhookDelivery
+  to: Request
+  type: belongs_to
+  via: request_id

@@ -1,0 +1,39 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/spaitial-ai-developer-api-openapi.json + https://docs.spaitial.ai/api
+standards:
+- id: oauth2
+  conforms: false
+  evidence: >-
+    OpenAPI declares only http bearer (API Key). The MCP server card advertises a
+    bearer + oauth2 auth scheme, but the REST API uses static API keys, not an
+    OAuth2 authorization flow.
+- id: bearer-token-auth
+  conforms: true
+  evidence: securityScheme type http, scheme bearer, bearerFormat "API Key"
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a custom envelope { error: { code, message, request_id, details } }
+    with application/json, not application/problem+json.
+- id: idempotency-key
+  conforms: true
+  evidence: Idempotency-Key header supported on POST /v1/worlds and POST /v1/panoramas/edit
+- id: rfc6585-rate-limit-429
+  conforms: true
+  evidence: 429 RATE_LIMIT_EXCEEDED with Retry-After and X-RateLimit-* headers
+- id: pagination-limit-offset
+  conforms: true
+  evidence: limit/offset query params on list endpoints
+- id: webhook-hmac-signing
+  conforms: true
+  evidence: X-Spaitial-Signature sha256 HMAC over raw body with per-key webhook_secret
+- id: asyncapi-event-surface
+  conforms: true
+  evidence: Documented world.* webhook events; AsyncAPI generated at asyncapi/spaitial-ai-webhooks-asyncapi.yml
+- id: openapi-3
+  conforms: true
+  evidence: openapi 3.0.0 served at https://api.spaitial.ai/v1/openapi.json
+- id: mcp
+  conforms: true
+  evidence: Hosted streamable-HTTP MCP server with a published .well-known MCP server card

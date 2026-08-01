@@ -1,0 +1,90 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://docs.spaitial.ai/api/mcp-server
+server:
+  name: spaitial-mcp
+  title: SpAItial MCP Server
+  version: 0.1.0
+  transport: streamable-http
+  url: https://mcp.spaitial.ai/mcp
+  stateless: true
+  server_card: https://mcp.spaitial.ai/.well-known/mcp/server-card.json
+  server_card_alias: https://mcp.spaitial.ai/.well-known/mcp.json
+  protocol_version: '2025-06-18'
+  documentation: https://docs.spaitial.ai/api/mcp-server
+authentication:
+  required: true
+  model: byok
+  note: >-
+    Bring-your-own-key. The server holds no credentials; each request must carry
+    your own SpAItial API key and generations are billed to your account.
+  schemes:
+  - bearer
+  - oauth2
+  headers:
+  - 'X-Spaitial-Api-Key: <key>'
+  - 'Authorization: Bearer spt_...'
+capabilities:
+  tools: true
+  resources: false
+  prompts: false
+tools:
+- name: list_models
+  description: List available generation models
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Models_listModels
+- name: create_world
+  description: Create a world generation job from text, image URL, base64, file_id, or panorama_id
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_createJob
+- name: edit_panorama
+  description: Edit a completed world/request or iterate on a panorama artifact
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Panoramas_editPanorama
+- name: list_panoramas
+  description: List edited panoramas created by this API key
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Panoramas_listPanoramas
+- name: get_panorama
+  description: Get an edited panorama
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Panoramas_getPanorama
+- name: get_edited_panorama_download_url
+  description: Resolve a signed download URL for an edited panorama
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Panoramas_downloadPanorama
+- name: get_world_status
+  description: Poll world generation job status
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_getJobStatus
+- name: get_world
+  description: Get the full job result post-completion
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_getJobResult
+- name: list_world_requests
+  description: List jobs created by this API key
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_listJobs
+- name: get_splat_download_url
+  description: Resolve a signed splat download URL for a completed job
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_getSplatDownload
+- name: get_panorama_download_url
+  description: Resolve a signed panorama download URL for a completed job
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_getPanoramaDownload
+- name: update_world
+  description: Update world visibility or title
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_updateWorld
+- name: cancel_world
+  description: Cancel a pending or processing job
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_cancelJob
+- name: start_mesh_export
+  description: Start or retrieve a mesh export for a completed job
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_createExport
+- name: get_mesh_export
+  description: Get mesh export status and download URL
+  source_operation: openapi/spaitial-ai-developer-api-openapi.json#V1Worlds_getExport
+keywords:
+- world model
+- 3D world generation
+- 3D scene generation
+- game scene generation
+- Gaussian splatting
+- 3DGS
+- SPZ
+- SOG
+- spatial AI
+- agent environment
+- simulation environment
+- robotics environment

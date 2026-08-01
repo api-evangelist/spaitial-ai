@@ -1,0 +1,95 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/errors
+format: custom-envelope
+envelope:
+  shape: |
+    { "error": { "code", "message", "request_id?", "details?" } }
+  branch_on: error.code
+  note: >-
+    Every error returns the same JSON envelope. Branch on the stable error.code,
+    not the human-readable message. 422 VALIDATION_FAILED carries a details
+    object describing which fields failed and why. This is a custom envelope, not
+    RFC 9457 application/problem+json.
+problems:
+- status: 400
+  code: INVALID_INPUT
+  title: Malformed request
+  meaning: Bad JSON, missing required field, or wrong content type.
+  retryable: false
+- status: 401
+  code: UNAUTHORIZED
+  title: Unauthorized
+  meaning: Missing, malformed, or revoked API key.
+  retryable: false
+- status: 402
+  code: INSUFFICIENT_CREDITS
+  title: Insufficient credits
+  meaning: Account does not have enough eligible plan credits for generation. Free daily credit cannot pay for API usage.
+  remediation: Purchase credits or upgrade the plan in the developer portal, or email support@spaitial.ai.
+  retryable: false
+- status: 403
+  code: FORBIDDEN
+  title: Forbidden
+  meaning: Authenticated but the key lacks the required scope.
+  retryable: false
+- status: 403
+  code: MODERATION_REJECTED
+  title: Moderation rejected
+  meaning: Content moderation blocked the input.
+  retryable: false
+- status: 404
+  code: REQUEST_NOT_FOUND
+  title: Request not found
+  meaning: Unknown request_id.
+  retryable: false
+- status: 404
+  code: FILE_NOT_FOUND
+  title: File not found
+  meaning: Unknown file_id, or the file is owned by another caller.
+  retryable: false
+- status: 404
+  code: PANORAMA_NOT_FOUND
+  title: Panorama not found
+  meaning: The pano_... does not exist or is not owned by the caller.
+  retryable: false
+- status: 409
+  code: IDEMPOTENCY_KEY_REUSED
+  title: Idempotency key reused
+  meaning: An Idempotency-Key was reused with a different payload.
+  remediation: Resolve the collision and pick a new key.
+  retryable: false
+- status: 409
+  code: RESOURCE_NOT_READY
+  title: Resource not ready
+  meaning: The requested world or artifact is not ready yet.
+  remediation: Poll again later.
+  retryable: true
+- status: 410
+  code: PANORAMA_EXPIRED
+  title: Panorama expired
+  meaning: The edited panorama has passed its 24-hour TTL.
+  retryable: false
+- status: 422
+  code: VALIDATION_FAILED
+  title: Validation failed
+  meaning: Payload parsed but is semantically invalid; details object lists field failures.
+  retryable: false
+- status: 429
+  code: RATE_LIMIT_EXCEEDED
+  title: Rate limit exceeded
+  meaning: Per-key rate limit exceeded. Response includes Retry-After.
+  remediation: Wait until the window resets (Retry-After or X-RateLimit-Reset), apply jitter.
+  retryable: true
+- status: 502
+  code: EDIT_FAILED
+  title: Panorama edit failed
+  meaning: The upstream panorama edit failed after the request was accepted.
+  remediation: Retry with a fresh or idempotent request.
+  retryable: true
+- status: 500
+  code: INTERNAL_ERROR
+  title: Internal server error
+  meaning: Unexpected server error.
+  remediation: Retry with exponential backoff and jitter (cap ~30s); pair with an Idempotency-Key.
+  retryable: true

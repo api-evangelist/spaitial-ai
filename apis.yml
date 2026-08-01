@@ -1,22 +1,215 @@
 aid: spaitial-ai
-name: Spaitial Ai
-description: Spaitial Ai is a company surfaced as a portfolio company of earlybird and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+name: SpAItial
+description: >-
+  SpAItial is a frontier AI lab building physically-grounded world models. Its
+  Echo model turns a single image, a 360-degree panorama, or a text prompt into
+  a persistent, explorable 3D Gaussian Splat world. The SpAItial Developer API
+  is a REST interface for generating, editing, exporting, and downloading these
+  3D worlds programmatically. Generation is asynchronous (submit a job, then poll
+  or receive a webhook), authenticated with bearer API keys carrying explicit
+  scopes, metered in credits, protected by per-key rate limits and an
+  Idempotency-Key contract, and fully agent-ready through a hosted Model Context
+  Protocol (MCP) server and a published Agent Skill.
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://spaitial.ai/og-image-default.png
 url: https://raw.githubusercontent.com/api-evangelist/spaitial-ai/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - earlybird
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: has-developer-api
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- World Models
+- Spatial AI
+- 3D World Generation
+- Gaussian Splatting
+- Generative AI
+- Developer API
+- MCP
+- Artificial Intelligence
+- 3D
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v1
+apis:
+- aid: spaitial-ai:spaitial-ai-files-api
+  name: SpAItial files API
+  description: File upload endpoints
+  humanURL: https://docs.spaitial.ai/api/getting-started
+  baseURL: https://api.spaitial.ai
+  tags:
+  - files
+  properties:
+  - type: OpenAPI
+    url: openapi/spaitial-ai-files-api-openapi.yml
+  - type: Documentation
+    url: https://docs.spaitial.ai/api/getting-started
+  - type: APIReference
+    url: https://docs.spaitial.ai/api/reference/spaitial-developer-api
+  - type: Authentication
+    url: https://docs.spaitial.ai/api/authentication
+  - type: Errors
+    url: https://docs.spaitial.ai/api/errors
+  - type: RateLimits
+    url: https://docs.spaitial.ai/api/rate-limits
+  - type: InteractiveDocs
+    url: https://api.spaitial.ai/v1/docs
+- aid: spaitial-ai:spaitial-ai-models-api
+  name: SpAItial models API
+  description: Model discovery endpoints
+  humanURL: https://docs.spaitial.ai/api/getting-started
+  baseURL: https://api.spaitial.ai
+  tags:
+  - models
+  properties:
+  - type: OpenAPI
+    url: openapi/spaitial-ai-models-api-openapi.yml
+  - type: Documentation
+    url: https://docs.spaitial.ai/api/getting-started
+  - type: APIReference
+    url: https://docs.spaitial.ai/api/reference/spaitial-developer-api
+  - type: Authentication
+    url: https://docs.spaitial.ai/api/authentication
+  - type: Errors
+    url: https://docs.spaitial.ai/api/errors
+  - type: RateLimits
+    url: https://docs.spaitial.ai/api/rate-limits
+  - type: InteractiveDocs
+    url: https://api.spaitial.ai/v1/docs
+- aid: spaitial-ai:spaitial-ai-panoramas-api
+  name: SpAItial panoramas API
+  description: The panoramas API from SpAItial — 4 operation(s) for panoramas.
+  humanURL: https://docs.spaitial.ai/api/getting-started
+  baseURL: https://api.spaitial.ai
+  tags:
+  - panoramas
+  properties:
+  - type: OpenAPI
+    url: openapi/spaitial-ai-panoramas-api-openapi.yml
+  - type: Documentation
+    url: https://docs.spaitial.ai/api/getting-started
+  - type: APIReference
+    url: https://docs.spaitial.ai/api/reference/spaitial-developer-api
+  - type: Authentication
+    url: https://docs.spaitial.ai/api/authentication
+  - type: Errors
+    url: https://docs.spaitial.ai/api/errors
+  - type: RateLimits
+    url: https://docs.spaitial.ai/api/rate-limits
+  - type: InteractiveDocs
+    url: https://api.spaitial.ai/v1/docs
+- aid: spaitial-ai:spaitial-ai-worlds-api
+  name: SpAItial worlds API
+  description: World generation endpoints
+  humanURL: https://docs.spaitial.ai/api/getting-started
+  baseURL: https://api.spaitial.ai
+  tags:
+  - worlds
+  properties:
+  - type: OpenAPI
+    url: openapi/spaitial-ai-worlds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.spaitial.ai/api/getting-started
+  - type: APIReference
+    url: https://docs.spaitial.ai/api/reference/spaitial-developer-api
+  - type: Authentication
+    url: https://docs.spaitial.ai/api/authentication
+  - type: Errors
+    url: https://docs.spaitial.ai/api/errors
+  - type: RateLimits
+    url: https://docs.spaitial.ai/api/rate-limits
+  - type: InteractiveDocs
+    url: https://api.spaitial.ai/v1/docs
+common:
+- type: DomainSecurity
+  url: security/spaitial-ai-domain-security.yml
+- type: Authentication
+  url: authentication/spaitial-ai-authentication.yml
+- type: DeveloperPortal
+  url: https://developers.spaitial.ai
+- type: Documentation
+  url: https://docs.spaitial.ai/overview/welcome
+- type: APIReference
+  url: https://docs.spaitial.ai/api/reference/spaitial-developer-api
+- type: GettingStarted
+  url: https://docs.spaitial.ai/api/getting-started
+- type: Blog
+  url: https://spaitial.ai/blog
+- type: GitHubOrganization
+  url: https://github.com/spaitial-ai
+- type: Pricing
+  url: https://docs.spaitial.ai/api/credits-billing
+- type: SignUp
+  url: https://developers.spaitial.ai
+- type: Login
+  url: https://app.spaitial.ai/login
+- type: TermsOfService
+  url: https://spaitial.ai/terms
+- type: PrivacyPolicy
+  url: https://spaitial.ai/privacy
+- type: Support
+  url: mailto:support@spaitial.ai
+- type: X
+  url: https://x.com/SpAItial_AI
+- type: LinkedIn
+  url: https://www.linkedin.com/company/spaitial-ai/
+- type: ChangeLog
+  url: https://docs.spaitial.ai/overview/release-notes
+- type: ChangeLog
+  url: changelog/spaitial-ai-changelog.yml
+- type: LLMsTxt
+  url: llms/spaitial-ai-llms.txt
+- type: MCPServer
+  url: mcp/spaitial-ai-mcp.yml
+- type: WellKnown
+  url: well-known/spaitial-ai-well-known.yml
+- type: ErrorCatalog
+  url: errors/spaitial-ai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/spaitial-ai-lifecycle.yml
+- type: Conventions
+  url: conventions/spaitial-ai-conventions.yml
+- type: Idempotency
+  url: conventions/spaitial-ai-conventions.yml
+- type: RateLimits
+  url: rate-limits/spaitial-ai-rate-limits.yml
+- type: Plans
+  url: plans/spaitial-ai-plans.yml
+- type: AsyncAPI
+  url: asyncapi/spaitial-ai-webhooks-asyncapi.yml
+- type: Webhooks
+  url: asyncapi/spaitial-ai-webhooks-asyncapi.yml
+- type: Sandbox
+  url: sandbox/spaitial-ai-sandbox.yml
+- type: DataModel
+  url: data-model/spaitial-ai-data-model.yml
+- type: Conformance
+  url: conformance/spaitial-ai-conformance.yml
+- type: Overlay
+  url: overlays/spaitial-ai-developer-api-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml

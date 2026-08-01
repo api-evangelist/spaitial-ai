@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/spaitial-ai-developer-api-openapi.json
+docs: https://docs.spaitial.ai/api/authentication
+summary:
+  types:
+  - http
+  api_key_prefixes: [spt_live_, spt_test_]
+schemes:
+- name: api-key
+  type: http
+  scheme: bearer
+  bearerFormat: API Key
+  description: >-
+    API key issued from the developer portal (developers.spaitial.ai), sent as
+    Authorization: Bearer spt_live_<key>. Test keys use the spt_test_ prefix with
+    the same scopes and lower rate limits. Keys are shown once, are the unit of
+    rate limiting and observability, and must be kept server-side. Missing,
+    unparseable, or revoked keys return 401 UNAUTHORIZED.
+  sources:
+  - openapi/spaitial-ai-developer-api-openapi.json
+scopes:
+- scope: worlds:create
+  description: Create worlds (POST /v1/worlds) and edit panoramas (POST /v1/panoramas/edit)
+- scope: worlds:read
+  description: List, read, download worlds/panoramas/models and list exports
+- scope: worlds:write
+  description: Update, cancel, and start exports for worlds
+- scope: files:create
+  description: Upload input files (POST /v1/files)
+- scope: files:read
+  description: List uploaded files (GET /v1/files)
+notes:
+- Scopes are enforced server-side; calls outside granted scopes return 403 FORBIDDEN.
+- The hosted MCP server (mcp.spaitial.ai) is bring-your-own-key using the same keys, sent as X-Spaitial-Api-Key or Authorization: Bearer.

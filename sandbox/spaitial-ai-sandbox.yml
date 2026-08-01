@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/authentication
+test_live_separation:
+  live_key_prefix: spt_live_
+  test_key_prefix: spt_test_
+  note: >-
+    Test or sandbox keys use the spt_test_ prefix and are available if your
+    workspace has them enabled. Test keys have the same scopes as live keys but
+    lower rate limits. The prefix is part of the key and must be sent verbatim.
+interactive:
+  swagger_ui: https://api.spaitial.ai/v1/docs
+  openapi: https://api.spaitial.ai/v1/openapi.json
+  getting_started_playground: >-
+    The Getting Started page includes an in-browser JavaScript request builder
+    for shape verification (no network calls are made).
+test_values:
+  note: >-
+    SpAItial does not publish magic test card numbers or fixed test identifiers.
+    World generation always consumes real plan credits; there is no free
+    generation sandbox. Reads, status polling, downloads, and exports are not
+    charged. Free users receive a one-time 1,600 starter credit grant.
+validation:
+  skip_default: true
+  docs: https://docs.spaitial.ai/api/validation

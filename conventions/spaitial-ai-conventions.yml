@@ -1,0 +1,70 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/getting-started
+authentication:
+  style: bearer-api-key
+  header: 'Authorization: Bearer spt_live_<key>'
+  key_prefixes: [spt_live_, spt_test_]
+  scopes: [worlds:create, worlds:read, worlds:write, files:create, files:read]
+  docs: https://docs.spaitial.ai/api/authentication
+  ref: authentication/spaitial-ai-authentication.yml
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  applies_to:
+  - POST /v1/worlds
+  - POST /v1/panoramas/edit
+  semantics: >-
+    Same key + same body returns the cached 202 response with no new job. Same
+    key + different body returns 409 IDEMPOTENCY_KEY_REUSED. Keys are not retry
+    tokens; to retry a FAILED job, submit a fresh POST with a new key or no key.
+  recommended: Pair retries on mutating endpoints with a fresh UUID Idempotency-Key.
+  docs: https://docs.spaitial.ai/api/llm-skills
+pagination:
+  style: limit-offset
+  params:
+    limit: limit
+    offset: offset
+  example: GET /v1/files?limit=20&offset=0
+  applies_to:
+  - GET /v1/files
+  - GET /v1/panoramas
+  - GET /v1/worlds/requests
+async_jobs:
+  model: submit-then-poll-or-webhook
+  states: [PENDING, PROCESSING, COMPLETED, FAILED, CANCELLED]
+  progress_field: progress
+  progress_range: 0-1
+  typical_time: 6-8 minutes (Echo 2 - Standard), ~60 minutes (Echo 2 HQ)
+  poll_cadence: every 5-10s with backoff after the first minute; status is cached ~3s
+  prefer: webhook over tight polling
+signed_urls:
+  pattern: stable-api-proxy-redirect
+  note: >-
+    splat_url, panorama_url, and export download_url are stable API endpoints.
+    Each GET returns a 302 to a fresh short-lived (~5 min) signed URL. Store the
+    API URL, resolve a fresh redirect just before fetching.
+rate_limiting:
+  signaling_headers:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - Retry-After
+  ref: rate-limits/spaitial-ai-rate-limits.yml
+error_envelope:
+  shape: '{ "error": { "code", "message", "request_id?", "details?" } }'
+  branch_on: error.code
+  ref: errors/spaitial-ai-problem-types.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  ref: lifecycle/spaitial-ai-lifecycle.yml
+webhooks:
+  supported: true
+  signature: 'X-Spaitial-Signature: sha256=hmac-sha256(body, webhook_secret)'
+  dedupe_header: X-Spaitial-Delivery-ID
+  ref: asyncapi/spaitial-ai-webhooks-asyncapi.yml
+resource_ttls:
+  uploaded_files: 24h
+  edited_panoramas: 24h
+  signed_download_urls: ~5m

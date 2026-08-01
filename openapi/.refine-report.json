@@ -1,0 +1,20 @@
+{
+  "provider": "spaitial-ai",
+  "sources": [
+    "spaitial-ai-files-api-openapi.yml",
+    "spaitial-ai-models-api-openapi.yml",
+    "spaitial-ai-panoramas-api-openapi.yml",
+    "spaitial-ai-worlds-api-openapi.yml"
+  ],
+  "outputs": [
+    "spaitial-ai-files-api-openapi.yml",
+    "spaitial-ai-models-api-openapi.yml",
+    "spaitial-ai-panoramas-api-openapi.yml",
+    "spaitial-ai-worlds-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for SpAItial Developer API
+  version: 1.0.0
+extends: openapi/spaitial-ai-developer-api-openapi.json
+x-provenance:
+  generated: '2026-07-21'
+  method: generated
+  source: https://docs.spaitial.ai/api
+actions:
+- target: $.info
+  update:
+    x-apievangelist-rating: 4
+    x-api-style: async-jobs
+    x-idempotency:
+      header: Idempotency-Key
+      operations: [V1Worlds_createJob, V1Panoramas_editPanorama]
+    x-webhooks:
+      events: [world.completed, world.failed, world.cancelled, world.export.completed, world.export.failed]
+      signature: X-Spaitial-Signature (HMAC-SHA256)
+    x-mcp-server: https://mcp.spaitial.ai/mcp
+    x-rate-limits:
+      general: 60/min
+      world_create: 10/min
+      downloads: 120/min
+- target: $.info
+  update:
+    x-scopes:
+      worlds:create: Create worlds and edit panoramas
+      worlds:read: List, read, and download worlds/panoramas/models
+      worlds:write: Update, cancel, and export worlds
+      files:create: Upload input files
+      files:read: List uploaded files
+- target: $.servers
+  update:
+    description: Enriched by API Evangelist enrichment pipeline

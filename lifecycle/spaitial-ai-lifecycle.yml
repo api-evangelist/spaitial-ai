@@ -1,0 +1,26 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.spaitial.ai/api/getting-started
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://api.spaitial.ai/v1
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or Sunset/Deprecation header support found as of this pass.
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  note: No status page found (status.spaitial.ai does not resolve).
+changelog:
+  url: https://docs.spaitial.ai/overview/release-notes
+  ref: changelog/spaitial-ai-changelog.yml
+resource_lifecycle:
+  uploaded_files_ttl: 24h (private bucket, owner-scoped)
+  edited_panoramas_ttl: 24h
+  signed_download_urls_ttl: ~5m
+  job_states: [PENDING, PROCESSING, COMPLETED, FAILED, CANCELLED]
+deprecated_operations: []

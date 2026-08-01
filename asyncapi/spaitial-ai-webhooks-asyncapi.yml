@@ -1,0 +1,177 @@
+asyncapi: 3.0.0
+info:
+  title: SpAItial Developer API Webhooks
+  version: 1.0.0
+  description: >-
+    Webhook event surface for the SpAItial Developer API. Set webhook.url on a
+    POST /v1/worlds request to receive an HTTPS callback on terminal state.
+    Deliveries carry an HMAC-SHA256 signature (X-Spaitial-Signature) computed
+    over the raw body with the API key's webhook_secret. Generated from the
+    published webhook documentation.
+  contact:
+    name: SpAItial
+    url: https://docs.spaitial.ai/api/llm-skills
+  externalDocs:
+    url: https://docs.spaitial.ai/api/llm-skills#webhooks
+x-provenance:
+  generated: '2026-07-21'
+  method: generated
+  source: https://docs.spaitial.ai/api/llm-skills
+  spec_type: AsyncAPI
+defaultContentType: application/json
+channels:
+  worldEvents:
+    address: '{subscriber_webhook_url}'
+    title: World lifecycle and export events
+    parameters:
+      subscriber_webhook_url:
+        description: The HTTPS webhook.url set on the world creation request.
+    messages:
+      worldCompleted:
+        $ref: '#/components/messages/worldCompleted'
+      worldFailed:
+        $ref: '#/components/messages/worldFailed'
+      worldCancelled:
+        $ref: '#/components/messages/worldCancelled'
+      worldExportCompleted:
+        $ref: '#/components/messages/worldExportCompleted'
+      worldExportFailed:
+        $ref: '#/components/messages/worldExportFailed'
+operations:
+  receiveWorldEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/worldEvents'
+    summary: Receive terminal-state world and export events at your webhook URL.
+    messages:
+    - $ref: '#/channels/worldEvents/messages/worldCompleted'
+    - $ref: '#/channels/worldEvents/messages/worldFailed'
+    - $ref: '#/channels/worldEvents/messages/worldCancelled'
+    - $ref: '#/channels/worldEvents/messages/worldExportCompleted'
+    - $ref: '#/channels/worldEvents/messages/worldExportFailed'
+components:
+  messageTraits:
+    webhookHeaders:
+      headers:
+        type: object
+        properties:
+          User-Agent:
+            const: SpaitialWebhook/1.0
+          X-Spaitial-Event:
+            type: string
+            enum: [world.completed, world.failed, world.cancelled, world.export.completed, world.export.failed]
+          X-Spaitial-Request-ID:
+            type: string
+            example: req_...
+          X-Spaitial-Delivery-ID:
+            type: string
+            example: wd_...
+          X-Spaitial-Delivery-Attempt:
+            type: integer
+            example: 1
+          X-Spaitial-Signature:
+            type: string
+            description: sha256=hmac-sha256(rawBody, webhook_secret)
+  messages:
+    worldCompleted:
+      name: world.completed
+      title: World generation completed
+      traits:
+      - $ref: '#/components/messageTraits/webhookHeaders'
+      payload:
+        $ref: '#/components/schemas/WorldEventEnvelope'
+    worldFailed:
+      name: world.failed
+      title: World generation failed
+      traits:
+      - $ref: '#/components/messageTraits/webhookHeaders'
+      payload:
+        $ref: '#/components/schemas/WorldFailedEnvelope'
+    worldCancelled:
+      name: world.cancelled
+      title: World generation cancelled
+      traits:
+      - $ref: '#/components/messageTraits/webhookHeaders'
+      payload:
+        $ref: '#/components/schemas/WorldEventEnvelope'
+    worldExportCompleted:
+      name: world.export.completed
+      title: World export completed
+      traits:
+      - $ref: '#/components/messageTraits/webhookHeaders'
+      payload:
+        $ref: '#/components/schemas/ExportEventEnvelope'
+    worldExportFailed:
+      name: world.export.failed
+      title: World export failed
+      traits:
+      - $ref: '#/components/messageTraits/webhookHeaders'
+      payload:
+        $ref: '#/components/schemas/ExportEventEnvelope'
+  schemas:
+    WorldEventEnvelope:
+      type: object
+      required: [event, delivery_id, timestamp, request_id, status]
+      properties:
+        event:
+          type: string
+          example: world.completed
+        delivery_id:
+          type: string
+          example: wd_<uuid>
+        timestamp:
+          type: string
+          format: date-time
+        request_id:
+          type: string
+        status:
+          type: string
+          enum: [COMPLETED, FAILED, CANCELLED]
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        completed_at: { type: string, format: date-time }
+        validation:
+          type: object
+          properties:
+            passed: { type: boolean }
+            issues: { type: array, items: { type: string } }
+        data:
+          description: Same shape as the `world` object in the result envelope; null for cancelled.
+          type: [object, 'null']
+    WorldFailedEnvelope:
+      allOf:
+      - $ref: '#/components/schemas/WorldEventEnvelope'
+      - type: object
+        properties:
+          data:
+            type: 'null'
+          error:
+            type: object
+            properties:
+              code: { type: string }
+              message: { type: string }
+    ExportEventEnvelope:
+      type: object
+      required: [event, delivery_id, timestamp, request_id, status, export]
+      properties:
+        event: { type: string, example: world.export.completed }
+        delivery_id: { type: string }
+        timestamp: { type: string, format: date-time }
+        request_id: { type: string }
+        status: { type: string }
+        data: { type: 'null' }
+        export:
+          type: object
+          properties:
+            type: { type: string, enum: [mesh, mesh-simplified] }
+            status: { type: string, enum: [READY, PROCESSING, FAILED] }
+            error:
+              type: object
+              properties:
+                code: { type: string }
+                message: { type: string }
+x-delivery-semantics:
+  transport: HTTPS only; private/loopback hostnames rejected (SSRF guard)
+  timeout: 30s per attempt
+  retries: up to 5 with backoff (~10s / 60s / 600s) on non-2xx or timeout
+  dedupe: idempotent on X-Spaitial-Delivery-ID

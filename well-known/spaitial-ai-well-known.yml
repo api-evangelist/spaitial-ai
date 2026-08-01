@@ -1,0 +1,29 @@
+generated: '2026-07-21'
+method: searched
+source: live probes of api.spaitial.ai, spaitial.ai, and mcp.spaitial.ai
+hosts:
+- host: https://mcp.spaitial.ai
+  documents:
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    file: spaitial-ai-mcp-server-card.json
+    note: MCP Server Card (schema static.modelcontextprotocol.io/mcp-server-card/v1)
+  - path: /.well-known/mcp.json
+    status: 200
+    note: compatibility alias of the MCP server card (identical body)
+- host: https://api.spaitial.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: https://spaitial.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404

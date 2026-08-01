@@ -1,0 +1,21 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/spaitial-ai-developer-api-openapi.json + https://docs.spaitial.ai/api/llm-skills
+published_skill:
+  install: npx skills add spaitial-dev/spaitial-api-skill
+  repo: https://github.com/spaitial-dev/spaitial-api-skill
+  reference: https://docs.spaitial.ai/api/llm-skills
+  local_copy: skills/spaitial-ai-llm-skills.md
+  note: >-
+    SpAItial publishes a first-party self-contained API skill for AI coding
+    assistants (Cursor, Claude Code, Cline). The verbatim LLM Skills reference is
+    saved locally at skills/spaitial-ai-llm-skills.md.
+skills:
+- file: spaitial-ai-generate-and-download-world.md
+  name: Generate and download a 3D world
+  api: openapi/spaitial-ai-developer-api-openapi.json
+  operations: [V1Models_listModels, V1Files_uploadFile, V1Worlds_createJob, V1Worlds_getJobStatus, V1Worlds_getJobResult, V1Worlds_getSplatDownload, V1Worlds_createExport, V1Worlds_getExport]
+- file: spaitial-ai-edit-panorama-and-recreate.md
+  name: Edit a panorama and create a world from it
+  api: openapi/spaitial-ai-developer-api-openapi.json
+  operations: [V1Panoramas_editPanorama, V1Panoramas_downloadPanorama, V1Panoramas_getPanorama, V1Worlds_createJob, V1Worlds_getJobStatus]
