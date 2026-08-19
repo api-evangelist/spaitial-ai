@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SpAItial Developer files panoramas API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "panoramas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Edit a panorama and return the updated panorama",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.spaitial.ai/v1/panoramas/edit",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Fetches the panorama behind the source (a request_id / world_id you created, or a panorama_id from a previous edit), applies the prompt + optional reference images, and returns the new panorama. Iterate by passing the returned panorama_id back in as the source; create a world from the final panorama via POST /v1/worlds with input { type: \"panorama_id\" }."
+        },
+        {
+          "info": {
+            "name": "List panoramas created by this API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/panoramas",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List panoramas created by this API key"
+        },
+        {
+          "info": {
+            "name": "Get a panorama",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/panoramas/:panoramaId",
+            "params": [
+              {
+                "name": "panoramaId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a panorama"
+        },
+        {
+          "info": {
+            "name": "Download a panorama image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/panoramas/:panoramaId/download",
+            "params": [
+              {
+                "name": "panoramaId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Redirects (302) to a short-lived signed download URL (~5 minutes). Re-hit this endpoint when it expires."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

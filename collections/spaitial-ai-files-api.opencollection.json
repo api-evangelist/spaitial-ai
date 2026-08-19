@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SpAItial Developer files API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List files uploaded by this API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/files",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of files to skip before returning results."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of files to return."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List files uploaded by this API key"
+        },
+        {
+          "info": {
+            "name": "Upload a file for later use in world generation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.spaitial.ai/v1/files",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Upload a file for later use in world generation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

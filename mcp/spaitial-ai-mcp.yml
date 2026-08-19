@@ -16,9 +16,8 @@ server:
 authentication:
   required: true
   model: byok
-  note: >-
-    Bring-your-own-key. The server holds no credentials; each request must carry
-    your own SpAItial API key and generations are billed to your account.
+  note: Bring-your-own-key. The server holds no credentials; each request must carry your own SpAItial
+    API key and generations are billed to your account.
   schemes:
   - bearer
   - oauth2
@@ -88,3 +87,10 @@ keywords:
 - agent environment
 - simulation environment
 - robotics environment
+deployment:
+  mode: remote
+  endpoint: https://mcp.spaitial.ai/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -1,0 +1,260 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SpAItial Developer files worlds API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "worlds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new world generation job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.spaitial.ai/v1/worlds",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new world generation job"
+        },
+        {
+          "info": {
+            "name": "List jobs created by this API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns only worlds generated through the API with this key. Worlds created in the Spaitial web app (dashboard) are not included, even for the same account. Generate through the API if you need the pipeline to list the result."
+        },
+        {
+          "info": {
+            "name": "Get job status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/status",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get job status"
+        },
+        {
+          "info": {
+            "name": "Get full job result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get full job result"
+        },
+        {
+          "info": {
+            "name": "Update world visibility or title",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update world visibility or title"
+        },
+        {
+          "info": {
+            "name": "Cancel a job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/cancel",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Cancel a job"
+        },
+        {
+          "info": {
+            "name": "Get export status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/exports/:type",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns export status. When ready, the response includes a backend proxy download_url. Add ?download=1 to this same endpoint to redirect to a short-lived signed file URL."
+        },
+        {
+          "info": {
+            "name": "Start or retrieve an export for a completed job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/exports/:type",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Export artifacts from worlds. Supports just collision meshes for now. Mesh exports can take several minutes, so ensure to check the status before requesting the download URL."
+        },
+        {
+          "info": {
+            "name": "List exports for a completed job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/exports",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List exports for a completed job"
+        },
+        {
+          "info": {
+            "name": "Download the splat artifact for a completed job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/splat",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires."
+        },
+        {
+          "info": {
+            "name": "Download the panorama artifact for a completed job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.spaitial.ai/v1/worlds/requests/:requestId/panorama",
+            "params": [
+              {
+                "name": "requestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Redirects (302) to a short-lived signed download URL. The URL is valid for ~5 minutes; re-hit this endpoint when it expires."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
